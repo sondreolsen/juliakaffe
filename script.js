@@ -21,19 +21,8 @@ const AVATAR_OPTIONS = {
   }
 };
 
-const AVATAR_NAME_OPTIONS = [
-  "Bella",
-  "Bianca",
-  "Billie",
-  "Bonnie",
-  "Birk",
-  "Bo",
-  "Balder",
-  "Brage"
-];
-
 const AVATAR_DEFAULT_STATE = {
-  name: "Bella",
+  name: "Nova",
   seed: "barista-base",
   skin: "warm",
   hairStyle: "bun",
@@ -207,6 +196,7 @@ if (!currentOrder) {
 
 const avatarPreview = document.getElementById("avatar-preview");
 const avatarImage = document.getElementById("avatar-image");
+const avatarNameInput = document.getElementById("avatar-name");
 const avatarNameplate = document.getElementById("avatar-nameplate");
 const avatarScore = document.getElementById("avatar-score");
 const avatarMessage = document.getElementById("avatar-message");
@@ -258,8 +248,12 @@ document.querySelectorAll("[data-drink-setting]").forEach((group) => {
   });
 });
 
+avatarNameInput.addEventListener("input", () => {
+  avatarState.name = avatarNameInput.value.trim() || AVATAR_DEFAULT_STATE.name;
+  renderAvatar();
+});
+
 document.getElementById("randomize-avatar-button").addEventListener("click", () => {
-  avatarState.name = randomFrom(AVATAR_NAME_OPTIONS);
   avatarState.seed = createSeed("avatar");
   avatarState.skin = randomKey(AVATAR_OPTIONS.skin);
   avatarState.hairStyle = randomFrom(["bun", "sideComed", "spiky", "undercut"]);
@@ -372,6 +366,7 @@ if (progress.started) {
 
 function renderAvatar() {
   avatarPreview.dataset.bg = avatarState.background;
+  avatarNameInput.value = avatarState.name;
   avatarNameplate.textContent = avatarState.name;
   avatarImage.src = buildAvatarUrl(512);
   serviceAvatarImage.src = buildAvatarUrl(256);
@@ -587,9 +582,7 @@ function normalizeAvatarState(value) {
     next.background = AVATAR_DEFAULT_STATE.background;
   }
 
-  if (!AVATAR_NAME_OPTIONS.includes(next.name)) {
-    next.name = AVATAR_DEFAULT_STATE.name;
-  }
+  next.name = typeof next.name === "string" && next.name.trim() ? next.name.trim() : AVATAR_DEFAULT_STATE.name;
   next.seed = typeof next.seed === "string" && next.seed.trim() ? next.seed.trim() : AVATAR_DEFAULT_STATE.seed;
   return next;
 }
