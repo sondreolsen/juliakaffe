@@ -21,8 +21,19 @@ const AVATAR_OPTIONS = {
   }
 };
 
+const AVATAR_NAME_OPTIONS = [
+  "Bella",
+  "Bianca",
+  "Billie",
+  "Bonnie",
+  "Birk",
+  "Bo",
+  "Balder",
+  "Brage"
+];
+
 const AVATAR_DEFAULT_STATE = {
-  name: "Barista Nova",
+  name: "Bella",
   seed: "barista-base",
   skin: "warm",
   hairStyle: "bun",
@@ -196,7 +207,6 @@ if (!currentOrder) {
 
 const avatarPreview = document.getElementById("avatar-preview");
 const avatarImage = document.getElementById("avatar-image");
-const avatarNameInput = document.getElementById("avatar-name");
 const avatarNameplate = document.getElementById("avatar-nameplate");
 const avatarScore = document.getElementById("avatar-score");
 const avatarMessage = document.getElementById("avatar-message");
@@ -219,6 +229,8 @@ const cupLabel = document.getElementById("cup-label");
 const drinkSummary = document.getElementById("drink-summary");
 const drinkScore = document.getElementById("drink-score");
 const cupTopping = document.getElementById("cup-topping");
+const serveButton = document.getElementById("serve-button");
+const newCustomerButton = document.getElementById("new-customer-button");
 
 document.querySelectorAll("[data-avatar-setting]").forEach((group) => {
   group.addEventListener("click", (event) => {
@@ -246,12 +258,8 @@ document.querySelectorAll("[data-drink-setting]").forEach((group) => {
   });
 });
 
-avatarNameInput.addEventListener("input", () => {
-  avatarState.name = avatarNameInput.value.trim() || AVATAR_DEFAULT_STATE.name;
-  renderAvatar();
-});
-
 document.getElementById("randomize-avatar-button").addEventListener("click", () => {
+  avatarState.name = randomFrom(AVATAR_NAME_OPTIONS);
   avatarState.seed = createSeed("avatar");
   avatarState.skin = randomKey(AVATAR_OPTIONS.skin);
   avatarState.hairStyle = randomFrom(["bun", "sideComed", "spiky", "undercut"]);
@@ -289,6 +297,7 @@ document.getElementById("start-service-button").addEventListener("click", () => 
   progress.started = true;
   persistJson(STORAGE_KEYS.progress, progress);
   unlockService();
+  updateServiceButtons();
   avatarMessage.textContent = "Baristaen er klar. Drikkestasjonen er apnet.";
   serviceSection.scrollIntoView({ behavior: "smooth", block: "start" });
 });
@@ -312,6 +321,7 @@ document.getElementById("new-customer-button").addEventListener("click", () => {
   matchScore.textContent = "0";
   serviceResult.textContent = "Ny kunde pa plass";
   serviceMessage.textContent = "Les bestillingen og bygg drikken pa nytt.";
+  updateServiceButtons();
 });
 
 document.getElementById("serve-button").addEventListener("click", () => {
@@ -321,24 +331,30 @@ document.getElementById("serve-button").addEventListener("click", () => {
     return;
   }
 
-  const result = evaluateDrink(drinkState, currentOrder.order);
-  matchScore.textContent = String(result.percent);
-
-  if (result.percent === 100) {
-    progress.served += 1;
-    persistJson(STORAGE_KEYS.progress, progress);
-    servedCount.textContent = String(progress.served);
-    serviceResult.textContent = "Perfekt bestilling";
-    serviceMessage.textContent = `${currentOrder.name} fikk akkurat det som ble bestilt.`;
-    currentOrder = createOrder();
-    persistJson(STORAGE_KEYS.order, currentOrder);
-    renderOrder();
-    matchScore.textContent = "0";
+  if (currentOrder.served) {
+    serviceMessage.textContent = "Denne kunden er allerede servert. Trykk Ny kunde for neste bestilling.";
+    updateServiceButtons();
     return;
   }
 
-  serviceResult.textContent = result.percent >= 67 ? "Nesten riktig" : "Trenger mer jobbing";
-  serviceMessage.textContent = result.message;
+  const result = evaluateDrink(drinkState, currentOrder.order);
+  matchScore.textContent = String(result.percent);
+  progress.served += 1;
+  currentOrder.served = true;
+  persistJson(STORAGE_KEYS.progress, progress);
+  persistJson(STORAGE_KEYS.order, currentOrder);
+  servedCount.textContent = String(progress.served);
+
+  if (result.percent === 100) {
+    serviceResult.textContent = "Perfekt bestilling";
+    serviceMessage.textContent = `${currentOrder.name} fikk akkurat det som ble bestilt. Trykk Ny kunde for neste bestilling.`;
+    updateServiceButtons();
+    return;
+  }
+
+  serviceResult.textContent = result.percent >= 67 ? "Kunden ble servert" : "Feil bestilling servert";
+  serviceMessage.textContent = `${currentOrder.name} fikk drikken. ${result.message} Trykk Ny kunde for neste bestilling.`;
+  updateServiceButtons();
 });
 
 renderAvatarControls();
@@ -348,6 +364,7 @@ renderDrink();
 renderOrder();
 servedCount.textContent = String(progress.served);
 serviceResult.textContent = progress.started ? "Klar for neste kunde" : "Venter pa start";
+updateServiceButtons();
 
 if (progress.started) {
   unlockService();
@@ -355,7 +372,6 @@ if (progress.started) {
 
 function renderAvatar() {
   avatarPreview.dataset.bg = avatarState.background;
-  avatarNameInput.value = avatarState.name;
   avatarNameplate.textContent = avatarState.name;
   avatarImage.src = buildAvatarUrl(512);
   serviceAvatarImage.src = buildAvatarUrl(256);
@@ -418,6 +434,12 @@ function renderOrder() {
     item.innerHTML = `<span>${label}</span><strong>${value}</strong>`;
     orderList.appendChild(item);
   });
+}
+
+function updateServiceButtons() {
+  serveButton.disabled = !progress.started || currentOrder.served;
+  serveButton.textContent = currentOrder.served ? "Kunden er servert" : "Server til kunde";
+  newCustomerButton.disabled = !progress.started;
 }
 
 function unlockService() {
@@ -524,6 +546,7 @@ function evaluateDrink(selected, target) {
 function createOrder() {
   const template = randomFrom(ORDER_TEMPLATES);
   return {
+    served: false,
     name: randomFrom(CUSTOMER_NAMES),
     intro: template.intro,
     order: { ...template.order }
@@ -564,7 +587,9 @@ function normalizeAvatarState(value) {
     next.background = AVATAR_DEFAULT_STATE.background;
   }
 
-  next.name = typeof next.name === "string" && next.name.trim() ? next.name.trim() : AVATAR_DEFAULT_STATE.name;
+  if (!AVATAR_NAME_OPTIONS.includes(next.name)) {
+    next.name = AVATAR_DEFAULT_STATE.name;
+  }
   next.seed = typeof next.seed === "string" && next.seed.trim() ? next.seed.trim() : AVATAR_DEFAULT_STATE.seed;
   return next;
 }
@@ -595,6 +620,7 @@ function normalizeOrder(value) {
   }
 
   return {
+    served: Boolean(value.served),
     name: typeof value.name === "string" && value.name.trim() ? value.name.trim() : randomFrom(CUSTOMER_NAMES),
     intro: typeof value.intro === "string" && value.intro.trim() ? value.intro.trim() : "Kan du lage noe godt til meg?",
     order: normalizeDrinkState(value.order)
