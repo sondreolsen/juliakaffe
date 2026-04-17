@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julias Kaffebar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Julias kafelab</p>
+        <h1>Bygg din egen baristaavatar og server perfekte drikker.</h1>
+        <p class="hero-text">
+          Forst lager du en avatar slik som i avatarspillet. Etterp&aring; starter vakten og lager kaffe,
+          kakao, matcha og andre drikker til kunder med forskjellige onsker.
+        </p>
+        <div class="hero-steps" aria-label="Spillflyt">
+          <div class="step-pill">
+            <span>1</span>
+            <strong>Lag avatar</strong>
+          </div>
+          <div class="step-pill">
+            <span>2</span>
+            <strong>Trykk start</strong>
+          </div>
+          <div class="step-pill">
+            <span>3</span>
+            <strong>Lag drikke</strong>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="button primary" href="#avatarspill">Begynn med avatar</a>
+          <a class="button secondary" href="#drikkestasjon">Se drikkestasjonen</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-glow"></div>
+        <p class="mini-label">Dagens stemning</p>
+        <h2>Cream cloud cafe</h2>
+        <p>
+          Velg stil, navn og uttrykk p&aring; baristaen din. N&aring;r avataren er klar,
+          kan du ta imot kunder og sette sammen riktige drikker.
+        </p>
+        <div class="hero-drinks" aria-hidden="true">
+          <span>Latte</span>
+          <span>Mocha</span>
+          <span>Matcha</span>
+          <span>Smoothie</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="studio avatar-studio" id="avatarspill">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Steg 1</p>
+          <h2>Lag en avatar</h2>
+        </div>
+        <p class="section-note">Bygg baristaen din med samme type valg som i referansespillet.</p>
+      </div>
+
+      <div class="studio-grid">
+        <div class="avatar-stage">
+          <div class="stage-header">
+            <div>
+              <p class="mini-label">Avatarstudio</p>
+              <h3>Barista-preview</h3>
+            </div>
+            <p class="score-pill">Kafeflyt: <span id="avatar-score">88</span></p>
+          </div>
+
+          <div class="avatar-preview" id="avatar-preview" data-bg="sunrise">
+            <div class="avatar-halo avatar-halo-a"></div>
+            <div class="avatar-halo avatar-halo-b"></div>
+            <img id="avatar-image" class="avatar-image" src="" alt="Baristaavatar">
+            <p class="avatar-nameplate" id="avatar-nameplate">Barista Nova</p>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="control-panel">
+            <label class="input-label" for="avatar-name">Navn p&aring; avataren</label>
+            <input id="avatar-name" class="text-input" type="text" maxlength="18" value="Barista Nova">
+          </div>
+
+          <div class="control-panel">
+            <div class="panel-header">
+              <h3>Hudtone</h3>
+              <p>Velg tonen som passer avataren best.</p>
+            </div>
+            <div class="swatch-row" data-avatar-setting="skin">
+              <button class="swatch-button" data-value="soft" style="--swatch:#f1c3a5;" aria-label="Lys"></button>
+              <button class="swatch-button is-active" data-value="warm" style="--swatch:#c68e7a;" aria-label="Varm"></button>
+              <button class="swatch-button" data-value="tan" style="--swatch:#b98e6a;" aria-label="Tan"></button>
+              <button class="swatch-button" data-value="deep" style="--swatch:#a36b4f;" aria-label="Dyp"></button>
+            </div>
+          </div>
+
+          <div class="control-panel">
+            <div class="panel-header">
+              <h3>H&aring;rform</h3>
+              <p>Bytt stil foran og bak p&aring; h&aring;ret.</p>
+            </div>
+            <div class="choice-row" data-avatar-setting="hairStyle">
+              <button class="chip-button is-active" data-value="bun">Bun</button>
+              <button class="chip-button" data-value="sideComed">Sideskill</button>
+              <button class="chip-button" data-value="spiky">Spiky</button>
+              <button class="chip-button" data-value="undercut">Undercut</button>
+            </div>
+            <div class="choice-row compact-row" data-avatar-setting="rearHair">
+              <button class="chip-button is-active" data-value="longStraight">Lang rett</button>
+              <button class="chip-button" data-value="longWavy">B&oslash;lgete</button>
+              <button class="chip-button" data-value="shoulderHigh">Skulderkort</button>
+              <button class="chip-button" data-value="neckHigh">Kort</button>
+            </div>
+            <div class="swatch-row" data-avatar-setting="hairColor">
+              <button class="swatch-button" data-value="midnight" style="--swatch:#2c1b18;" aria-label="Mork"></button>
+              <button class="swatch-button is-active" data-value="chestnut" style="--swatch:#724133;" aria-label="Brun"></button>
+              <button class="swatch-button" data-value="amber" style="--swatch:#a55728;" aria-label="Kobber"></button>
+              <button class="swatch-button" data-value="golden" style="--swatch:#d6b370;" aria-label="Lys"></button>
+            </div>
+          </div>
+
+          <div class="control-panel">
+            <div class="panel-header">
+              <h3>Uttrykk</h3>
+              <p>Sett blikk, bryn og smil p&aring; baristaen.</p>
+            </div>
+            <div class="choice-row" data-avatar-setting="eyes">
+              <button class="chip-button is-active" data-value="wide">V&aring;ken</button>
+              <button class="chip-button" data-value="happy">Glad</button>
+              <button class="chip-button" data-value="humble">Myk</button>
+              <button class="chip-button" data-value="wink">Blunk</button>
+            </div>
+            <div class="choice-row compact-row" data-avatar-setting="eyebrows">
+              <button class="chip-button" data-value="happy">Glade bryn</button>
+              <button class="chip-button is-active" data-value="neutral">Rolige bryn</button>
+              <button class="chip-button" data-value="raised">L&oslash;ftede bryn</button>
+              <button class="chip-button" data-value="sad">Myke bryn</button>
+            </div>
+            <div class="choice-row compact-row" data-avatar-setting="mouth">
+              <button class="chip-button is-active" data-value="smile">Smil</button>
+              <button class="chip-button" data-value="laugh">Latter</button>
+              <button class="chip-button" data-value="agape">Overrasket</button>
+              <button class="chip-button" data-value="sad">Rolig</button>
+            </div>
+          </div>
+
+          <div class="control-panel">
+            <div class="panel-header">
+              <h3>Kl&aelig;r og bakgrunn</h3>
+              <p>Velg stil for dagens vakt i kafebaren.</p>
+            </div>
+            <div class="choice-row" data-avatar-setting="clothes">
+              <button class="chip-button" data-value="dress">Skjorte</button>
+              <button class="chip-button" data-value="openJacket">Jakke</button>
+              <button class="chip-button" data-value="tShirt">T-skjorte</button>
+              <button class="chip-button is-active" data-value="turtleNeck">Genser</button>
+            </div>
+            <div class="swatch-row" data-avatar-setting="clothesColor">
+              <button class="swatch-button" data-value="berry" style="--swatch:#8f3534;" aria-label="Rustrad"></button>
+              <button class="swatch-button is-active" data-value="rose" style="--swatch:#d4706b;" aria-label="Rosa"></button>
+              <button class="swatch-button" data-value="forest" style="--swatch:#56785b;" aria-label="Gronn"></button>
+              <button class="swatch-button" data-value="espresso" style="--swatch:#6f4630;" aria-label="Brun"></button>
+            </div>
+            <div class="choice-row compact-row" data-avatar-setting="background">
+              <button class="chip-button is-active" data-value="sunrise">Sunrise</button>
+              <button class="chip-button" data-value="latte">Latte</button>
+              <button class="chip-button" data-value="berry">Berry</button>
+              <button class="chip-button" data-value="mint">Mint</button>
+            </div>
+          </div>
+
+          <div class="game-actions">
+            <button class="button primary action-button" id="randomize-avatar-button" type="button">Lag tilfeldig avatar</button>
+            <button class="button secondary action-button" id="download-avatar-button" type="button">Last ned avatar</button>
+            <button class="button accent action-button" id="start-service-button" type="button">Start spillet</button>
+          </div>
+
+          <p class="helper-text" id="avatar-message">
+            Gj&oslash;r ferdig avataren og trykk start for &aring; g&aring; videre til drikkestasjonen.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="studio service-studio is-locked" id="drikkestasjon">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Steg 2</p>
+          <h2>Lag drikke til kunder</h2>
+        </div>
+        <p class="section-note">Bygg drikken med samme type knapper og valg som i avatarspillet.</p>
+      </div>
+
+      <div class="lock-banner" id="lock-banner">
+        Fullf&oslash;r avataren og trykk start for &aring; &aring;pne baristastasjonen.
+      </div>
+
+      <div class="service-grid">
+        <div class="service-sidebar">
+          <div class="customer-card">
+            <div class="panel-header">
+              <div>
+                <p class="mini-label">Neste kunde</p>
+                <h3 id="customer-name">Mina</h3>
+              </div>
+              <p class="score-pill neutral">Match: <span id="match-score">0</span>%</p>
+            </div>
+
+            <p class="customer-intro" id="customer-intro">
+              Hei! Jeg vil gjerne ha noe godt laget av dagens barista.
+            </p>
+
+            <div class="order-list" id="order-list" aria-live="polite"></div>
+
+            <div class="barista-badge">
+              <img id="service-avatar-image" src="" alt="Baristaavatar i miniformat">
+              <div>
+                <p class="mini-label">P&aring; jobb n&aring;</p>
+                <strong id="service-avatar-name">Barista Nova</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="service-status">
+            <div class="status-row">
+              <span>Serverte ordrer</span>
+              <strong id="served-count">0</strong>
+            </div>
+            <div class="status-row">
+              <span>Resultat</span>
+              <strong id="service-result">Klar for f&oslash;rste kunde</strong>
+            </div>
+            <p class="helper-text" id="service-message">
+              Velg drikke og tilbeh&oslash;r, og trykk server n&aring;r du tror alt stemmer.
+            </p>
+          </div>
+        </div>
+
+        <div class="service-main">
+          <div class="drink-stage">
+            <div class="stage-header">
+              <div>
+                <p class="mini-label">Drikkelab</p>
+                <h3>Preview av bestillingen</h3>
+              </div>
+              <p class="score-pill warm">Drikkepoeng: <span id="drink-score">84</span></p>
+            </div>
+
+            <div class="drink-preview" id="drink-preview" data-serve="hot" data-topping="none">
+              <div class="drink-glow drink-glow-a"></div>
+              <div class="drink-glow drink-glow-b"></div>
+              <div class="steam steam-a"></div>
+              <div class="steam steam-b"></div>
+
+              <div class="cup-shadow"></div>
+              <div class="cup">
+                <div class="cup-rim"></div>
+                <div class="cup-foam" id="cup-foam"></div>
+                <div class="cup-liquid" id="cup-liquid"></div>
+                <div class="cup-ice">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <div class="cup-frost"></div>
+                <div class="cup-topping" id="cup-topping"></div>
+                <div class="cup-label" id="cup-label">Latte</div>
+              </div>
+              <div class="cup-plate"></div>
+
+              <div class="drink-summary" id="drink-summary"></div>
+            </div>
+          </div>
+
+          <div class="controls drink-controls">
+            <div class="control-panel">
+              <div class="panel-header">
+                <h3>Drikke</h3>
+                <p>Velg hva kunden skal f&aring; i koppen.</p>
+              </div>
+              <div class="choice-row" data-drink-setting="drink">
+                <button class="chip-button is-active" data-value="latte">Latte</button>
+                <button class="chip-button" data-value="cappuccino">Cappuccino</button>
+                <button class="chip-button" data-value="mocha">Mocha</button>
+                <button class="chip-button" data-value="matcha">Matcha</button>
+                <button class="chip-button" data-value="hotChocolate">Kakao</button>
+                <button class="chip-button" data-value="smoothie">Smoothie</button>
+              </div>
+            </div>
+
+            <div class="control-panel">
+              <div class="panel-header">
+                <h3>Storrelse</h3>
+                <p>Sm&aring; detaljer teller i bestillingen.</p>
+              </div>
+              <div class="choice-row" data-drink-setting="size">
+                <button class="chip-button" data-value="small">Liten</button>
+                <button class="chip-button is-active" data-value="medium">Medium</button>
+                <button class="chip-button" data-value="large">Stor</button>
+              </div>
+            </div>
+
+            <div class="control-panel">
+              <div class="panel-header">
+                <h3>Servering</h3>
+                <p>Velg om drikken skal v&aelig;re varm, kald eller frozen.</p>
+              </div>
+              <div class="choice-row" data-drink-setting="serve">
+                <button class="chip-button is-active" data-value="hot">Varm</button>
+                <button class="chip-button" data-value="iced">Iskald</button>
+                <button class="chip-button" data-value="frozen">Frozen</button>
+              </div>
+            </div>
+
+            <div class="control-panel">
+              <div class="panel-header">
+                <h3>Melk</h3>
+                <p>Passer til kaffe, kakao og andre drikker.</p>
+              </div>
+              <div class="choice-row" data-drink-setting="milk">
+                <button class="chip-button is-active" data-value="whole">Helmelk</button>
+                <button class="chip-button" data-value="oat">Havre</button>
+                <button class="chip-button" data-value="almond">Mandel</button>
+                <button class="chip-button" data-value="none">Ingen</button>
+              </div>
+            </div>
+
+            <div class="control-panel">
+              <div class="panel-header">
+                <h3>Smak</h3>
+                <p>Gi drikken en ekstra signatur.</p>
+              </div>
+              <div class="choice-row" data-drink-setting="syrup">
+                <button class="chip-button is-active" data-value="none">Ingen</button>
+                <button class="chip-button" data-value="vanilla">Vanilje</button>
+                <button class="chip-button" data-value="caramel">Karamell</button>
+                <button class="chip-button" data-value="hazelnut">Hasselnott</button>
+                <button class="chip-button" data-value="chocolate">Sjokolade</button>
+              </div>
+            </div>
+
+            <div class="control-panel">
+              <div class="panel-header">
+                <h3>Topping</h3>
+                <p>Siste touch f&oslash;r servering.</p>
+              </div>
+              <div class="choice-row" data-drink-setting="topping">
+                <button class="chip-button is-active" data-value="none">Ingen</button>
+                <button class="chip-button" data-value="cinnamon">Kanel</button>
+                <button class="chip-button" data-value="foam">Skum</button>
+                <button class="chip-button" data-value="cream">Krem</button>
+                <button class="chip-button" data-value="sprinkles">Str&oslash;ssel</button>
+              </div>
+            </div>
+
+            <div class="game-actions">
+              <button class="button secondary action-button" id="randomize-drink-button" type="button">Lag tilfeldig drikke</button>
+              <button class="button primary action-button" id="serve-button" type="button">Server til kunde</button>
+              <button class="button accent action-button" id="new-customer-button" type="button">Ny kunde</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
